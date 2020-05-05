@@ -201,9 +201,9 @@ class Blockchain {
                     let block = self.chain[i];
                     let validation = await block.validate();
                     if (!validation) {
-                        console.log("ERROR VALIDATING DATA");
+                        console.log("Err validating data");
                     } else if (block.previousBlockHash != self.chain[i - 1].hash) {
-                        console.log("ERROR WITH PREVIOUS BLOCK HASH");
+                        console.log("Err with previous block hash);
                     }
                 }
                 if (errorLog) {
@@ -212,7 +212,7 @@ class Blockchain {
                     resolve("Chain is valid.");
                 }
             } else {
-                reject(Error("Cannot validate chain.")).catch(error => {
+                reject(Error("Cannot validate Chain data.")).catch(error => {
                     console.log('caught', error.message);
                 });
             }
