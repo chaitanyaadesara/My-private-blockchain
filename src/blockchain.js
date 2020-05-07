@@ -66,6 +66,9 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             block.height = ++this.height;
             block.time = new Date().getTime().toString().slice(0, -3);
+            if (self.height > 0) {
+                block.previousBlockHash = self.chain[self.height - 1].hash;
+            }
             block.hash = SHA256(JSON.stringify(block)).toString();
             this.chain.push(block);
             // console.log('addblock', this.chain);
@@ -89,7 +92,7 @@ class Blockchain {
      */
     requestMessageOwnershipVerification(address) {
         return new Promise((resolve) => {
-
+            resolve(address + ':' + new Date().getTime().toString().slice(0, -3) + ':starRegistry');
         });
     }
 
@@ -201,19 +204,19 @@ class Blockchain {
                     let block = self.chain[i];
                     let validation = await block.validate();
                     if (!validation) {
-                        console.log("Err validating data");
-                    } else if (block.previousBlockHash != self.chain[i - 1].hash) {
-                        console.log("Err with previous block hash);
+                        errorLog.push("ERROR VALIDATING DATA");
+                    } else if (1 > 0 && block.previousBlockHash != self.chain[i - 1].hash) {
+                        errorLog.push("ERROR WITH PREVIOUS BLOCK HASH");
                     }
                 }
-                if (errorLog) {
+                if (errorLog.length) {
                     resolve(errorLog);
                 } else {
                     resolve("Chain is valid.");
                 }
             } else {
-                reject(Error("Cannot validate Chain data.")).catch(error => {
-                    console.log('caught', error.message);
+                reject(Error("Cannot validate chain.")).catch(error => {
+                    errorLog.push('caught', error.message);
                 });
             }
         }).then(successfulValidation => {
