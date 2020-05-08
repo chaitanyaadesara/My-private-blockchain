@@ -205,7 +205,7 @@ class Blockchain {
                     let validation = await block.validate();
                     if (!validation) {
                         errorLog.push("ERROR VALIDATING DATA");
-                    } else if (1 > 0 && block.previousBlockHash != self.chain[i - 1].hash) {
+                    } else if (i > 0 && block.previousBlockHash != self.chain[i - 1].hash) {
                         errorLog.push("ERROR WITH PREVIOUS BLOCK HASH");
                     }
                 }
